@@ -24,7 +24,7 @@ def load_data(directory):
             people[row["id"]] = {
                 "name": row["name"],
                 "birth": row["birth"],
-                "movies": set()
+                "movies": set(),
             }
             if row["name"].lower() not in names:
                 names[row["name"].lower()] = {row["id"]}
@@ -38,7 +38,7 @@ def load_data(directory):
             movies[row["id"]] = {
                 "title": row["title"],
                 "year": row["year"],
-                "stars": set()
+                "stars": set(),
             }
 
     # Load stars
@@ -91,7 +91,7 @@ def shortest_path(source, target):
 
     If no possible path, returns None.
     """
-
+    # validating input
     if source is None or target is None or source == target:
         return None
     
@@ -102,7 +102,6 @@ def shortest_path(source, target):
     num_explored = 0
 
     while True: 
-
         if frontier.empty():
             return None
         
@@ -111,12 +110,13 @@ def shortest_path(source, target):
 
         explored.add(node.state)
 
-        for (movie_id, person_id) in neighbors_for_person(node.state):
+        for movie_id, person_id in neighbors_for_person(node.state):
             if not frontier.contains_state(person_id) and person_id not in explored:            
                 child = Node(person_id, node, movie_id)
                 frontier.add(child)
 
-                if(child.state == target):
+                # if target is found, return
+                if child.state == target:
                     retval = []
 
                     while child.parent is not None:
@@ -125,8 +125,6 @@ def shortest_path(source, target):
 
                     retval.reverse()
                     return retval
-                    
-                
 
 
 def person_id_for_name(name):
